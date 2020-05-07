@@ -15,9 +15,8 @@ import org.ekstep.graph.dac.model.Node;
 import org.ekstep.graph.dac.model.Relation;
 import org.ekstep.telemetry.logger.TelemetryManager;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -188,12 +187,10 @@ public class QuestionPaperGenerator {
 
     private static File generateHtmlFile(String htmlString, String assessmentSetId) {
         File htmlFile = new File(TEMP_FILE_LOCATION + assessmentSetId + "_" + getFileName(HTML_PREFIX) + HTMLEXT);
-        try (FileWriter fw = new FileWriter(htmlFile)) {
-            fw.write(htmlString);
+        try (OutputStreamWriter writer =
+                     new OutputStreamWriter(new FileOutputStream(htmlFile), StandardCharsets.UTF_8)) {
+            writer.write(htmlString);
         } catch (Exception e) {
-            e.printStackTrace();
-            if(htmlFile.exists())
-            		htmlFile.delete();
         }
         return htmlFile;
     }
