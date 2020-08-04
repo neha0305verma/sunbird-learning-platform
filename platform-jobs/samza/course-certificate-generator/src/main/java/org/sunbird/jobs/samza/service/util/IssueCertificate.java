@@ -4,6 +4,7 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.TypeTokens;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
@@ -56,7 +57,7 @@ public class IssueCertificate {
         this.cassandraSession = cassandraSession;
     }
 
-    public void issue(Map<String, Object> edata, MessageCollector collector) {
+    public void issue(Map<String, Object> edata, MessageCollector collector) throws Exception {
         String batchId = (String) edata.get(CourseCertificateParams.batchId.name());
         String courseId = (String) edata.get(CourseCertificateParams.courseId.name());
         List<String> userIds = (null != edata.get(CourseCertificateParams.userIds.name()))? (List<String>)edata.get(CourseCertificateParams.userIds.name()): new ArrayList<>();
