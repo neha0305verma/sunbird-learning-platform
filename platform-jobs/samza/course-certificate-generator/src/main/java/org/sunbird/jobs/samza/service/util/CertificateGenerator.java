@@ -163,6 +163,8 @@ public class CertificateGenerator {
             }
             String recipientName = getRecipientName(userResponse);
             Map<String, Object> certServiceRequest = prepareCertServiceRequest(courseName, batchId, userId, userResponse, certTemplate, issuedOn);
+            LOGGER.info("CertificateGenerator:generateCertificate: Request Url : " + certGenerateURL);
+            LOGGER.info("CertificateGenerator:generateCertificate: Request Body : " + mapper.writeValueAsString(certServiceRequest));
             HttpResponse<String> httpResponse = Unirest.post(certGenerateURL).header("Content-Type", "application/json").body(mapper.writeValueAsString(certServiceRequest)).asString();
             if(200 == httpResponse.getStatus()) {
                 Response response = mapper.readValue(httpResponse.getBody(), Response.class);
